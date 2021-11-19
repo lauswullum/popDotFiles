@@ -11,6 +11,7 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'lervag/vimtex'
   Plug 'brennier/quicktex'
   Plug 'miyakogi/seiya.vim'
+  Plug 'jalvesaq/Nvim-R', {'branch': 'stable'}
 call plug#end()
 
 """"" sets for tabs and spaces
