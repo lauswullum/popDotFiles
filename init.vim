@@ -29,6 +29,8 @@ set relativenumber
 set noshowmode
 map <SPACE> <leader>
 
+let R_assign = 2
+
 "Opacity
 hi Normal guibg=none ctermbg=none
 hi LineNr guibg=none ctermbg=none
@@ -51,6 +53,11 @@ colorscheme gruvbox
 syntax enable
 filetype plugin indent on
 
+" R
+
+
+"""" VIMTEX
+let g:vimtex_view_general_viewer = 'zathura'
 
 """"" appearance for lightline
 let g:lightline = {
