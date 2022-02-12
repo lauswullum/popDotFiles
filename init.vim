@@ -20,7 +20,7 @@ set shiftwidth=2
 set expandtab
 set softtabstop=2
 set number
-
+let R_buffer_opts = "buflisted"
 set timeoutlen=1000
 set ttimeoutlen=0
 set textwidth=80
@@ -30,17 +30,18 @@ set noshowmode
 map <SPACE> <leader>
 
 let R_assign = 2
+let R_rmdchunk = '££'
 
 "Opacity
-hi Normal guibg=none ctermbg=none
-hi LineNr guibg=none ctermbg=none
-hi Folded guibg=none ctermbg=none
-hi NonText guibg=none ctermbg=none
-hi SpecialKey guibg=none ctermbg=none
-hi VertSplit guibg=none ctermbg=none
-hi SignColumn guibg=none ctermbg=none
-hi EndOfBuffer guibg=none ctermbg=none
-let g:seiya_auto_enable=1
+"hi Normal guibg=none ctermbg=none
+"hi LineNr guibg=none ctermbg=none
+"hi Folded guibg=none ctermbg=none
+"hi NonText guibg=none ctermbg=none
+"hi SpecialKey guibg=none ctermbg=none
+"hi VertSplit guibg=none ctermbg=none
+"hi SignColumn guibg=none ctermbg=none
+"hi EndOfBuffer guibg=none ctermbg=none
+let g:seiya_auto_enable=0
 
 """"" SET FOR NERDTREE
 map <C-n> :NERDTreeToggle<CR>
@@ -54,7 +55,11 @@ syntax enable
 filetype plugin indent on
 
 " R
-
+inoremap qq :wq<CR>
+nnoremap qq :wq<CR>
+inoremap q1 :q!<CR>
+nnoremap q1 :q!<CR>
+inoremap jf %>%
 
 """" VIMTEX
 let g:vimtex_view_general_viewer = 'zathura'
@@ -228,6 +233,7 @@ let g:quicktex_math = {
     \'add'   : '+ ',
     \'min'   : '- ',
     \'frac'  : '\frac{<+++>}{<++>} <++>',
+    \'inner'  : '\inner{<+++>}{<++>} <++>',
     \'recip' : '\frac{1}{<+++>} <++>',
     \'fracs' : '\frac1<+++>',
     \'vecs'  : '(<+++>, <++>, <++>) <++>',
@@ -301,6 +307,7 @@ let g:quicktex_math = {
     \'fl' : '\mathcal{L} ',
     \'fj' : '\mathcal{J} ',
     \'fv' : '\mathcal{V} ',
+    \'fX' : '\mathcal{X} ',
     \'fh' : '\mathcal{H} ',
     \
 \'Section: Encapsulating keywords' : 'COMMENT',
