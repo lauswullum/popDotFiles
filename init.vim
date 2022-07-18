@@ -7,12 +7,68 @@ call plug#begin('~/.local/share/nvim/plugged')
 	Plug 'fcpg/vim-fahrenheit'
 	Plug 'junegunn/goyo.vim'
 	Plug 'itchyny/lightline.vim'
+	Plug 'itchyny/calendar.vim'
+  Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
   Plug 'morhetz/gruvbox'
   Plug 'lervag/vimtex'
   Plug 'brennier/quicktex'
+  Plug 'christoomey/vim-tmux-navigator'
   Plug 'miyakogi/seiya.vim'
   Plug 'jalvesaq/Nvim-R', {'branch': 'stable'}
 call plug#end()
+
+lua << EOF
+-- ToggleTerm
+---[[
+require('toggleterm').setup{
+    size = function(term)
+        if term.direction == "horizontal" then
+            return 20
+        elseif term.direction == "vertical" then
+            return vim.o.columns * 0.4
+        end
+    end,
+    open_mapping = [[\\]],
+    insert_mappings = false,
+    terminal_mappings = true,
+    -- on_open = fun(t: Terminal), -- function to run when the terminal opens
+    -- on_close = fun(t: Terminal), -- function to run when the terminal closes
+    hide_numbers = true,
+    shade_filetypes = {},
+    shade_terminals = true,
+    shading_factor = '1',
+    start_in_insert = true,
+    persist_size = true,
+    direction = 'vertical',
+    close_on_exit = true,
+    shell = vim.o.shell,
+}
+-- Functional wrapper for mapping custom keybindings
+function map(mode, lhs, rhs, opts)
+    local options = { noremap = true }
+    if opts then
+        options = vim.tbl_extend("force", options, opts)
+    end
+    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+end
+
+map("n", "<leader>l", ":ToggleTermSendVisualSelection<CR>")
+--]]
+EOF
+
+nnoremap <silent> <Bslash>w <C-w><C-h>
+"nnoremap <silent> <leader>w <C-w><C-j>
+"nnoremap <silent> <A-k> <C-w><C-k>
+nnoremap <silent> <Bslash>r <C-w><C-l>
+
+"require("toggleterm").setup {
+"  direction = 'float',
+"  open_mapping = [[<c-\>]],
+"  on_open = function(term)
+"    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<c-\\>", "exit<CR>", { noremap = true, silent = true })
+"  end,
+"  close_on_exit = true,
+"}
 
 """"" sets for tabs and spaces
 set tabstop=2
@@ -27,7 +83,10 @@ set textwidth=80
 set wrap
 set relativenumber
 set noshowmode
+set hidden
 map <SPACE> <leader>
+
+
 
 let R_assign = 2
 let R_rmdchunk = '££'
@@ -46,6 +105,9 @@ let g:seiya_auto_enable=0
 """"" SET FOR NERDTREE
 map <C-n> :NERDTreeToggle<CR>
 
+map <C-y> :Goyo<CR>
+
+tnoremap <Esc><Esc> <C-\><C-n>
 """" Colorscheme
 "colorscheme fahrenheit
 colorscheme gruvbox
@@ -69,17 +131,7 @@ let g:lightline = {
       \ 'colorscheme': 'gruvbox',
       \ 'active': {
       \   'left': [['mode', 'paste'], ['absolutepath', 'modified']],
-      \   'right': [['lineinfo'], ['percent'], ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok']]
-      \ },
-      \ 'component_expand': {
-      \   'linter_warnings': 'LightlineLinterWarnings',
-      \   'linter_errors': 'LightlineLinterErrors',
-      \   'linter_ok': 'LightlineLinterOK',
-      \ },
-      \ 'component_type': {
-      \   'readonly': 'error',
-      \   'linter_warnings': 'warning',
-      \   'linter_errors': 'error'
+      \   'right': [['lineinfo'], ['percent']]
       \ },
 \ }
 
@@ -102,6 +154,7 @@ let g:quicktex_tex = {
     \'lst' : "\\begin{enumerate}[a)]\<CR>\\item <+++>\<CR>\\end{enumerate}",
     \'cd'  : "\\[\<CR><+++>\<CR>\\]\<CR><++>",
     \'eq'  : "\\begin{align*}\<CR><+++>\<CR>\\end{align*}\<CR><++>",
+    \'lstl': "\\begin{lstlisting}\<CR><+++>\<CR>\\end{lstlisting}\<CR><++>",
     \'blk'  : "\\begin{block}{<+++>}\<CR><++>\<CR>\\end{block}\<CR><++>",
     \'bol' : "\\textbf{<+++>} <++>",
     \'ita' : "\\textit{<+++>} <++>",
@@ -284,6 +337,7 @@ let g:quicktex_math = {
     \
 \'Section: LaTeX commands' : 'COMMENT',
     \'sub'    : "\<BS>_{<+++>} <++>",
+    \'subn'   : "\<BS>_<+++> <++>",
     \'sone'   : "\<BS>_1 ",
     \'stwo'   : "\<BS>_2 ",
     \'sthree' : "\<BS>_3 ",
