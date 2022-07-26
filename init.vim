@@ -6,15 +6,18 @@ call plug#begin('~/.local/share/nvim/plugged')
 	Plug 'preservim/nerdtree'
 	Plug 'fcpg/vim-fahrenheit'
 	Plug 'junegunn/goyo.vim'
+    Plug 'JuliaEditorSupport/julia-vim'
 	Plug 'itchyny/lightline.vim'
 	Plug 'itchyny/calendar.vim'
-  Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
-  Plug 'morhetz/gruvbox'
-  Plug 'lervag/vimtex'
-  Plug 'brennier/quicktex'
-  Plug 'christoomey/vim-tmux-navigator'
-  Plug 'miyakogi/seiya.vim'
-  Plug 'jalvesaq/Nvim-R', {'branch': 'stable'}
+    Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
+    Plug 'morhetz/gruvbox'
+    Plug 'lervag/vimtex'
+    Plug 'brennier/quicktex'
+    Plug 'christoomey/vim-tmux-navigator'
+    Plug 'miyakogi/seiya.vim'
+    Plug 'jalvesaq/Nvim-R', {'branch': 'stable'}
+    Plug 'vim-pandoc/vim-pandoc-syntax'
+    Plug 'quarto-dev/quarto-vim'
 call plug#end()
 
 lua << EOF
@@ -52,15 +55,28 @@ function map(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-map("n", "<leader>l", ":ToggleTermSendVisualSelection<CR>")
+map("n", "<leader>t", ":ToggleTermSendVisualSelection<CR>")
+function _G.set_terminal_keymaps()
+  local opts = {noremap = true}
+  vim.api.nvim_buf_set_keymap(0, 't', '<A-h>', [[<C-\><C-n><C-W>h]], opts)
+  vim.api.nvim_buf_set_keymap(0, 't', '<A-j>', [[<C-\><C-n><C-W>j]], opts)
+  vim.api.nvim_buf_set_keymap(0, 't', '<A-k>', [[<C-\><C-n><C-W>k]], opts)
+  vim.api.nvim_buf_set_keymap(0, 't', '<A-l>', [[<C-\><C-n><C-W>l]], opts)
+end
+
+-- if you only want these mappings for toggle term use term://*toggleterm#* instead
+vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+
 --]]
 EOF
 
-nnoremap <silent> <Bslash>w <C-w><C-h>
-"nnoremap <silent> <leader>w <C-w><C-j>
-"nnoremap <silent> <A-k> <C-w><C-k>
-nnoremap <silent> <Bslash>r <C-w><C-l>
+nnoremap <silent> <A-h> <C-w><C-h>
+nnoremap <silent> <A-j> <C-w><C-j>
+nnoremap <silent> <A-k> <C-w><C-k>
+nnoremap <silent> <A-l> <C-w><C-l>
 
+nnoremap <silent> <Bslash>+ :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Bslash>- :exe "resize " . (winheight(0) * 2/3)<CR>
 "require("toggleterm").setup {
 "  direction = 'float',
 "  open_mapping = [[<c-\>]],
@@ -71,10 +87,10 @@ nnoremap <silent> <Bslash>r <C-w><C-l>
 "}
 
 """"" sets for tabs and spaces
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set expandtab
-set softtabstop=2
+set softtabstop=4
 set number
 let R_buffer_opts = "buflisted"
 set timeoutlen=1000
@@ -87,7 +103,7 @@ set hidden
 map <SPACE> <leader>
 
 
-
+let g:latex_to_unicode_file_types = ".*"
 let R_assign = 2
 let R_rmdchunk = '££'
 
