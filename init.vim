@@ -106,7 +106,9 @@ map <SPACE> <leader>
 let g:latex_to_unicode_file_types = ".*"
 let R_assign = 2
 let R_rmdchunk = '££'
-
+"autocmd BufNewFile,BufRead *.qmd set filetype=quarto
+"autocmd BufNewFile,BufRead *.md set filetype=markdown
+"
 "Opacity
 "hi Normal guibg=none ctermbg=none
 "hi LineNr guibg=none ctermbg=none
@@ -424,3 +426,34 @@ let g:quicktex_math = {
 \
 \}
 
+let g:quicktex_quarto = {
+    \','   : "\<ESC>:call search('<+.*+>')\<CR>\"_c/+>/e\<CR>",
+    \'mf'  : '$ <+++> $ <++>',
+\'Section: Environments' : 'COMMENT',
+    \'env' : "\<ESC>Bvedi\\begin{\<ESC>pa}\<CR><+++>\<CR>\\end{\<ESC>pa}\<CR><++>",
+    \'exj' : "```{julia}\<CR><+++>\<CR>```",
+    \'exr' : "```{r}\<CR><+++>\<CR>```",
+    \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}",
+    \'thm' : "\\begin{theorem}\<CR><+++>\<CR>\\end{theorem}",
+    \'lem' : "\\begin{lemma}\<CR><+++>\<CR>\\end{lemma}",
+    \'que' : "\\begin{question}\<CR><+++>\<CR>\\end{question}",
+    \'cor' : "\\begin{corollary}\<CR><+++>\<CR>\\end{corollary}",
+    \'lst' : "\\begin{enumerate}[a)]\<CR>\\item <+++>\<CR>\\end{enumerate}",
+    \'cd'  : "\\[\<CR><+++>\<CR>\\]\<CR><++>",
+    \'eq'  : "\\begin{align*}\<CR><+++>\<CR>\\end{align*}\<CR><++>",
+    \'lstl': "\\begin{lstlisting}\<CR><+++>\<CR>\\end{lstlisting}\<CR><++>",
+    \'blk'  : "\\begin{block}{<+++>}\<CR><++>\<CR>\\end{block}\<CR><++>",
+    \'bol' : "\\textbf{<+++>} <++>",
+    \'ita' : "\\textit{<+++>} <++>",
+    \'footn' : "\\footnote{<+++>} <++>",
+    \'eqn' : "\\begin{equation}\\label{<+++>}\<CR><++>\<CR>\\end{equation}",
+\
+\'Section: Common Sets' : 'COMMENT',
+    \'bn' : '\(\mathbb{N}\) ',
+    \'bz' : '\(\mathbb{Z}\) ',
+    \'bq' : '\(\mathbb{Q}\) ',
+    \'br' : '\(\mathbb{R}\) ',
+    \'bc' : '\(\mathbb{C}\) ',
+    \'ba' : '\(\mathbb{A}\) ',
+    \'bf' : '\(\mathbb{F}\) ',
+\}
